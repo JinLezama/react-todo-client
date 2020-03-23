@@ -21,7 +21,7 @@ class App extends React.Component {
         })
         .then(() => {
             this.setState({
-                todos: this.setState.todos.filter(item => {
+                todos: this.state.todos.filter(item => {
                     return item.id !== id
                 })
             })
@@ -59,7 +59,6 @@ class App extends React.Component {
             }
         })
         .then(data => {
-            console.log(data)
             this.setState({
                 todos: [...this.state.todos, data.data],
                 todo: ""

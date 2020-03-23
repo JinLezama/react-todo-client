@@ -15,14 +15,30 @@ class App extends React.Component {
         }
     }
 
+    deleteItem = (id) => {
+        fetch(`https://flask-todo-api1.herokuapp.com/${id}`, {
+            method: "DELETE",
+        })
+        .then(() => {
+            this.setState({
+                todos: this.setState.todos.filter(item => {
+                    return item.id !== id
+                })
+            })
+        })
+        .catch((error) => {
+            console.log("DeleteItem error", error)
+        })
+    }
+
     renderTodos =() => {
         return this.state.todos.map(item => {
-            return <TodoItem key={item.id} item={item}/>
+            return <TodoItem key={item.id} item={item} deleteItem={this.deleteItem}/>
         })
     }
 
     componentDidMount() {
-        fetch("http://localhost:5000/todos") 
+        fetch("https://flask-todo-api1.herokuapp.com/") 
         .then(response => response.json())
         .then(data => {
             this.setState({
@@ -35,7 +51,7 @@ class App extends React.Component {
         event.preventDefault()
         axios({
             method: "post",
-            url: "http://localhost:5000/todo",
+            url: "https://flask-todo-api1.herokuapp.com/",
             headers: { "content-type": "application/json"},
             data: {
                 title: this.state.todo,
